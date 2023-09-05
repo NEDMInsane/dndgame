@@ -4,7 +4,7 @@ class Character:
     """
     Represents a character in the fame with a name, size, hitpoints, attributes
     """
-    def __init__(self, name, strength, dexterity, consistitution, intelligence, wisdom, charisma):
+    def __init__(self, name):
         """
         Initialize a character with their attributes.
 
@@ -22,15 +22,16 @@ class Character:
         self.hitpoints = '1' #This will be modified later
         self.level = 1
         self.sex = ''
-        self.alignment = 'N'
-
+        self.alignment = (0, 0) #Tuple to define where your alignment is.
+        self.race = 'None'
+        
         self.attributes = {
-            "Str": strength,
-            "Dex": dexterity,
-            "Con": consistitution,
-            "Int": intelligence,
-            "Wis": wisdom,
-            "Cha": charisma
+            "Str": 0,
+            "Dex": 0,
+            "Con": 0,
+            "Int": 0,
+            "Wis": 0,
+            "Cha": 0
         }
 
         self.class_attributes = {
@@ -90,7 +91,7 @@ class Character:
         """
         return self.attributes[attribute]
 
-    def set_all_class_attribs(self, die_type, armor_type, weapon_type, primary_ability, saving_throw, character_class):
+    def set_all_class_attributes(self, die_type, armor_type, weapon_type, primary_ability, saving_throw, character_class):
         """
         Set the class-specific attributes of the character.
 
@@ -133,12 +134,18 @@ class Character:
     def get_sex(self):
         return self.sex
 
+    def __repr__(self):
+        return f'({self}, {self.name} Obj)'
+    
+    def __str__(self):
+        return f'{self.name}, the {self.race} {self.class_attributes["character_class"]}.'
+
 class Human(Character):
     """
     Represents a Human character with racial traits and bonuses.
     """
-    def __init__(self, name, strength, dexterity, consistitution, intelligence, wisdom, charisma):
-        super().__init__(name, strength, dexterity, consistitution, intelligence, wisdom, charisma)
+    def __init__(self, name):
+        super().__init__(name)
         self.increment_attribute('Str', 1) #Racial Trait Bonus
         self.increment_attribute('Dex', 1) #Racial Trait Bonus
         self.increment_attribute('Con', 1) #Racial Trait Bonus
@@ -148,8 +155,8 @@ class Elf(Character):
     """
     Represents an Elf character with racial traits and bonuses.
     """
-    def __init__(self, name, strength, dexterity, consistitution, intelligence, wisdom, charisma):
-        super().__init__(name, strength, dexterity, consistitution, intelligence, wisdom, charisma)
+    def __init__(self, name):
+        super().__init__(name)
         self.increment_attribute('Dex', 2) #Racial Trait Bonus
         self.increment_attribute('Wis', 1) #Racial Trait Bonus
         self.race = 'Elf'
@@ -158,8 +165,8 @@ class Dwarf(Character):
     """
     Represents a Dwarf character with racial traits and bonuses.
     """
-    def __init__(self, name, strength, dexterity, consistitution, intelligence, wisdom, charisma):
-        super().__init__(name, strength, dexterity, consistitution, intelligence, wisdom, charisma)
+    def __init__(self, name):
+        super().__init__(name)
         self.increment_attribute('Con', 1) #Racial Trait Bonus
         self.increment_attribute('Str', 2) #Racial Trait Bonus
         self.race = 'Dwarf'
@@ -168,16 +175,19 @@ class Halfling(Character):
     """
     Represents a Halfling character with racial traits and bonuses.
     """
-    def __init__(self, name, strength, dexterity, consistitution, intelligence, wisdom, charisma):
-        super().__init__(name, strength, dexterity, consistitution, intelligence, wisdom, charisma)
+    def __init__(self, name):
+        super().__init__(name)
         self.increment_attribute('Dex', 2) #Racial Trait Bonus
         self.increment_attribute('Cha', 1) #Racial Trait Bonus
         self.size = 'Small' #Racial Trait Bonus
         self.race = 'Halfling'
 
 class Character_Class:
-    def __init__(self, name):
+    def __init__(self, name = 'None'):
         self.name = name
+    
+    def apply_class_attributes(self, character):
+        character.set_all_class_attributes('None', 'None', 'None', 'None', 'None', 'None')
 
 class Cleric(Character_Class):
     def __init__(self):
@@ -185,7 +195,7 @@ class Cleric(Character_Class):
         self.description = """Cleric: A priestly Champion who wields divine magic in service of a higher power."""
     
     def apply_class_attributes(self, character):
-        character.set_all_class_attribs('d8', 
+        character.set_all_class_attributes('d8', 
                                         ['Medium', 'Light', 'None'], 
                                         ['Shield', 'Simple'], 
                                         'Wis', 
@@ -198,7 +208,7 @@ class Fighter(Character_Class):
         self.description = """Fighter: A master of martial combat, skilled with a variet of weapon and armor."""
     
     def apply_class_attributes(self, character):
-        character.set_all_class_attribs('d10', 
+        character.set_all_class_attributes('d10', 
                                         ['Heavy', 'Medium', 'Light', 'None'], 
                                         ['Shield', 'Simple', 'Melee'], 
                                         'Str', 
@@ -211,7 +221,7 @@ class Rogue(Character_Class):
         self.description = """Rogue: A scoundrel who uses stealth and trickery to overcome obstacles and enemies."""
     
     def apply_class_attributes(self, character):
-        character.set_all_class_attribs('d8', 
+        character.set_all_class_attributes('d8', 
                                         ['Light', 'None'], 
                                         ['Crossbow','Sword', 'Simple', 'Melee'], 
                                         'Dex', 
@@ -224,17 +234,47 @@ class Wizard(Character_Class):
         self.description = """Wizard: A scholarly magic-user capable of manipulating the structures of reality."""
     
     def apply_class_attributes(self, character):
-        character.set_all_class_attribs('d8', 
+        character.set_all_class_attributes('d8', 
                                         ['None'], 
                                         ['Staff','Simple', 'Thrown', 'Melee'], 
                                         'Int', 
                                         ['Int', 'Wis'], 
                                         'Wizard')
 
-def create_character():
-    #TODO: Class to create a new character
-    pass
-
-def build_character():
-    #TODO: Build character will walk the player through making a character.
-    pass
+def create_character(character_name, character_race, character_class):
+    match character_race:
+        case 'Human':
+            new_player = Human(character_name)
+        case 'Elf':
+            new_player = Elf(character_name)
+        case 'Dwarf':
+            new_player = Dwarf(character_name)
+        case 'Halfling':
+            new_player = Halfling(character_name)
+        case _:
+            print(f'ERR: Race({character_race}) does not exist.')
+            new_player = Character(character_name)
+        
+    match character_class:
+        case 'Cleric':
+            Cleric().apply_class_attributes(new_player)
+        case 'Fighter':
+            Fighter().apply_class_attributes(new_player)
+        case 'Rogue':
+            Rogue().apply_class_attributes(new_player)
+        case 'Wizard':
+            Wizard().apply_class_attributes(new_player)
+        case _:
+            print(f'ERR: Class({character_class}) does not exist.')
+            Character_Class().apply_class_attributes(new_player)
+    return new_player
+        
+def build_character(character):
+    for atrribute in character.attributes:
+        character.attributes[atrribute] += roll_dice(1, 6)
+    print(character.attributes)
+        
+if __name__ == "__main__":
+    jimmy = create_character('Jimmy', 'human', 'cleric')
+    build_character(jimmy)
+    print(jimmy)
