@@ -234,3 +234,7 @@ class Wizard(Character_Class):
 def create_character():
     #TODO: Class to create a new character
     pass
+
+def build_character():
+    #TODO: Build character will walk the player through making a character.
+    pass

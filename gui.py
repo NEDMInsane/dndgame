@@ -1,6 +1,11 @@
 import tkinter as tk
+import character
 
-class Main_Menu:
+class GUI:
+    #TODO: Add defaults for style here
+    pass
+
+class Main_Menu(GUI):
     """
     A class representing the main menu of a DnD campaign game.
 
@@ -94,7 +99,7 @@ class Main_Menu:
 
     # TODO: Implement a function to make the window invisible/visible.
 
-class New_Game:
+class New_Game(GUI):
     """
     A class representing the character creation process for a new game.
 
@@ -277,6 +282,9 @@ class New_Game:
         self.btn_start_over.destroy()
         self.btn_confirm.destroy()
         
+        main_game_window = tk.Tk()
+        main_game = Main_Game(main_game_window, self.race, self.character_class)
+        
         self.new_game.destroy()    
 
     def race_human(self):
@@ -303,6 +311,13 @@ class New_Game:
     def class_wizard(self):
         self.select_class('Wizard')        
 
+class Main_Game(GUI):
+    def __init__(self, main_game, race, character_class):
+        self.main_game = main_game
+        self.race = race
+        self.character_class = character_class
+        
+        character.build_character(self.race, self.character_class)
 
 if __name__ == "__main__":
     root = tk.Tk()
