@@ -2,8 +2,9 @@ import tkinter as tk
 import character
 
 class GUI:
-    #TODO: Add defaults for style here
-    pass
+    def __init__(self):
+        self.width = 900
+        self.height = 1200
 
 class Main_Menu(GUI):
     """
@@ -43,11 +44,12 @@ class Main_Menu(GUI):
 
         Initializes the main menu with buttons for Continue, New Game, Load Game, and Quit.
         """
+        super().__init__()
         self.root = root
         root.title("DnD Campaign")
-        width = 450
-        height = 300
-        root.geometry(f'{width}x{height}')
+        self.width = 450
+        self.height = 300
+        root.geometry(f'{self.width}x{self.height}')
         root.resizable(False, False)
 
         self.lbl_title = tk.Label(root, text = "DnD Campaign", font = ("Helvetica", 55))
@@ -162,11 +164,12 @@ class New_Game(GUI):
 
         Initializes the character creation process with race selection and GUI elements for race choices.
         """
+        super().__init__()
         self.new_game = new_game
         new_game.title('New Game')
-        width = 800
-        height = 600
-        new_game.geometry(f'{width}x{height}')
+        self.width = 800
+        self.height = 600
+        new_game.geometry(f'{self.width}x{self.height}')
         new_game.resizable(False, False)
         
         self.race = ''
@@ -280,12 +283,12 @@ class New_Game(GUI):
         self.lbl_new_game.pack()
         
         self.btn_start_over.destroy()
-        self.btn_confirm.destroy()
+        self.btn_confirm.destroy()        
+        self.new_game.destroy()   
         
         main_game_window = tk.Tk()
         main_game = Main_Game(main_game_window, self.race, self.character_class)
-        
-        self.new_game.destroy()    
+ 
 
     def race_human(self):
         self.select_race('Human')
@@ -313,9 +316,11 @@ class New_Game(GUI):
 
 class Main_Game(GUI):
     def __init__(self, main_game, race, character_class):
+        super().__init__()
         self.main_game = main_game
         self.race = race
         self.character_class = character_class
+        main_game.geometry(f'{self.width}x{self.height}')
         
         character.build_character(self.race, self.character_class)
 
