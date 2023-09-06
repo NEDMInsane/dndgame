@@ -56,7 +56,7 @@ class Character:
             "Head"      : [],
             "Chest"     : [],
             "Main Hand" : [],
-            "Off Hand"  : [],
+            "Offhand"  : [],
             "Legs"      : [],
             "Feet"      : [],
             "Rings"     : [],
@@ -210,7 +210,7 @@ class Fighter(Character_Class):
     def apply_class_attributes(self, character):
         character.set_all_class_attributes('d10', 
                                         ['Heavy', 'Medium', 'Light', 'None'], 
-                                        ['Shield', 'Simple', 'Melee'], 
+                                        ['Shield', 'Simple'], 
                                         'Str', 
                                         ['Str', 'Con'], 
                                         'Fighter')
@@ -223,7 +223,7 @@ class Rogue(Character_Class):
     def apply_class_attributes(self, character):
         character.set_all_class_attributes('d8', 
                                         ['Light', 'None'], 
-                                        ['Crossbow','Sword', 'Simple', 'Melee'], 
+                                        ['Crossbow','Sword', 'Simple'], 
                                         'Dex', 
                                         ['Dex', 'Int'], 
                                         'Rogue')
@@ -236,7 +236,7 @@ class Wizard(Character_Class):
     def apply_class_attributes(self, character):
         character.set_all_class_attributes('d8', 
                                         ['None'], 
-                                        ['Staff','Simple', 'Thrown', 'Melee'], 
+                                        ['Staff','Simple', 'Thrown'], 
                                         'Int', 
                                         ['Int', 'Wis'], 
                                         'Wizard')
@@ -272,7 +272,6 @@ def create_character(character_name, character_race, character_class):
 def build_character(character):
     for atrribute in character.attributes:
         character.attributes[atrribute] += roll_dice(1, 6)
-    print(character.attributes)
         
 if __name__ == "__main__":
     jimmy = create_character('Jimmy', 'human', 'cleric')
