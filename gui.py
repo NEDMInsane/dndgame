@@ -322,21 +322,26 @@ class Main_Game(GUI):
         self.character_class = character_class
         main_game.geometry(f'{self.width}x{self.height}')
         
-        game_panel = tk.Frame(self.main_game, width = 500, height = 350, bg = "white")
-        info_panel = tk.Frame(self.main_game, width = 300, height = 350, bg = "red")
-        entry_panel = tk.Frame(self.main_game, width = 800, height = 250, bg = "blue")
-
-        info_panel.pack(side = "left")
-        entry_panel.pack(side = "bottom")
-        game_panel.pack(row = 0, column = 0)
+        game_panel = tk.Frame(self.main_game)
+        game_panel.configure(bg = "white", padx = 10, pady = 10)
+        info_panel = tk.Frame(self.main_game)
+        info_panel.configure(bg = "red", padx = 10, pady = 10)
+        entry_panel = tk.Frame(self.main_game)
+        entry_panel.configure(bg = "blue", padx = 10, pady = 10)
+        
+        game_panel.place(width = 550, height = 450, x = 0, y = 0)
+        info_panel.place(width = 250, height = 450, x = 550, y = 0)
+        entry_panel.place(width = 800, height = 150, x = 0, y = 450)
 
         self.party = []
 
-        #player_1 = character.create_character('Jimmy', self.race, self.character_class)
-        #self.party.append(player_1)
+        player_1 = character.create_character('Jimmy', self.race, self.character_class)
+        self.party.append(player_1)
 
-        #self.partylabel = tk.Label(self.main_game, text = self.list_player_characters_in_party(self.party))
-        #self.partylabel.pack()
+        partylabel = tk.Label(info_panel)
+        partylabel.configure(text = self.list_player_characters_in_party(self.party))
+        partylabel.pack(side = "top")
+
 
     def list_player_characters_in_party(self, party_list):
         party_string = 'Party List:'
