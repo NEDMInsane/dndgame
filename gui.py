@@ -3,8 +3,8 @@ import character
 
 class GUI:
     def __init__(self):
-        self.width = 900
-        self.height = 1200
+        self.width = 800
+        self.height = 600
 
 class Main_Menu(GUI):
     """
@@ -322,7 +322,33 @@ class Main_Game(GUI):
         self.character_class = character_class
         main_game.geometry(f'{self.width}x{self.height}')
         
-        character.build_character(self.race, self.character_class)
+        game_panel = tk.Frame(self.main_game)
+        game_panel.configure(bg = "white", padx = 10, pady = 10)
+        info_panel = tk.Frame(self.main_game)
+        info_panel.configure(bg = "red", padx = 10, pady = 10)
+        entry_panel = tk.Frame(self.main_game)
+        entry_panel.configure(bg = "blue", padx = 10, pady = 10)
+        
+        game_panel.place(width = 550, height = 450, x = 0, y = 0)
+        info_panel.place(width = 250, height = 450, x = 550, y = 0)
+        entry_panel.place(width = 800, height = 150, x = 0, y = 450)
+
+        self.party = []
+
+        player_1 = character.create_character('Jimmy', self.race, self.character_class)
+        self.party.append(player_1)
+
+        partylabel = tk.Label(info_panel)
+        partylabel.configure(text = self.list_player_characters_in_party(self.party))
+        partylabel.pack(side = "top")
+
+
+    def list_player_characters_in_party(self, party_list):
+        party_string = 'Party List:'
+        for player_character in party_list:
+            party_string = party_string + '\n' + str(player_character)
+        return party_string
+
 
 if __name__ == "__main__":
     root = tk.Tk()
