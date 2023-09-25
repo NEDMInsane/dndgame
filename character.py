@@ -19,8 +19,8 @@ class Character:
         """
         self.name = name
         self.size = 'Medium'
-        self.hitpoints = '1' #This will be modified later
-        self.level = 1
+        self.hitpoints = 1 #This will be modified later
+        self.level = 0
         self.sex = ''
         self.alignment = (0, 0) #Tuple to define where your alignment is.
         self.race = 'None'
@@ -56,7 +56,7 @@ class Character:
             "Head"      : [],
             "Chest"     : [],
             "Main Hand" : [],
-            "Offhand"  : [],
+            "Offhand"   : [],
             "Legs"      : [],
             "Feet"      : [],
             "Rings"     : [],
@@ -75,21 +75,6 @@ class Character:
             increment_amount (int): The amount to increment the attribute by.
         """
         self.attributes[attribute] = self.attributes[attribute] + increment_amount
-
-    def set_attribute(self, attribute, number):
-        self.attributes[attribute] = number
-    
-    def get_attribute(self, attribute):
-        """
-        Get the value of a character's attribute.
-
-        Args:
-            attribute (str): The attribute to retrieve.
-
-        Returns:
-            int: The value of the specified attribute.
-        """
-        return self.attributes[attribute]
 
     def set_all_class_attributes(self, die_type, armor_type, weapon_type, primary_ability, saving_throw, character_class):
         """
@@ -110,35 +95,11 @@ class Character:
         self.class_attributes["saving_throw"] = saving_throw
         self.class_attributes["character_class"] = character_class
 
-    def set_hitpoints(self, hitpoints):
-        self.hitpoints = hitpoints
-
-    def get_hitpoints(self):
-        return self.hitpoints
-
-    def set_equip(self, slot, equip_list):
-        self.equip[slot] = equip_list
-
-    def get_equip(self, slot):
-        return self.equip[slot]
-
-    def set_skills(self, skill_type, skill, point_value):
-        self.character_skills[skill_type[skill]] = point_value
-
-    def get_skill(self, skill_type, skill):
-        return self.character_skills[skill_type[skill]]
-
-    def set_sex(self, sex):
-        self.sex = sex
-
-    def get_sex(self):
-        return self.sex
-
     def __repr__(self):
-        return f'({self}, {self.name} Obj)'
+        return f'{self}'
     
     def __str__(self):
-        return f'{self.name}, the {self.race} {self.class_attributes["character_class"]}.'
+        return f'{self.name}, the {self.race} {self.class_attributes["character_class"]}'
 
 class Human(Character):
     """

@@ -3,8 +3,8 @@ import character
 
 class GUI:
     def __init__(self):
-        self.width = 900
-        self.height = 1200
+        self.width = 800
+        self.height = 600
 
 class Main_Menu(GUI):
     """
@@ -320,9 +320,56 @@ class Main_Game(GUI):
         self.main_game = main_game
         self.race = race
         self.character_class = character_class
-        main_game.geometry(f'{self.width}x{self.height}')
+        self.main_game.geometry(f'{self.width}x{self.height}')
+        self.party_list = []
+
+        player_1 = character.create_character('Jimmy', self.race, self.character_class)
+        self.party_list.append(player_1)
+        player_2 = character.create_character('Bob', self.race, self.character_class)
+        self.party_list.append(player_2)
+
+        self.setup_window_structure()
+        self.setup_info_panel()
+
         
-        character.build_character(self.race, self.character_class)
+    def setup_window_structure(self):
+        self.game_panel = tk.Frame(self.main_game)
+        self.game_panel.configure(bg = "white", padx = 10, pady = 10)
+        self.info_panel = tk.Frame(self.main_game)
+        self.info_panel.configure(bg = "red", padx = 10, pady = 10)
+        self.entry_panel = tk.Frame(self.main_game)
+        self.entry_panel.configure(bg = "blue", padx = 10, pady = 10)
+        
+        self.game_panel.place(width = 550, height = 450, x = 0, y = 0)
+        self.info_panel.place(width = 250, height = 450, x = 550, y = 0)
+        self.entry_panel.place(width = 800, height = 150, x = 0, y = 450)
+
+    def setup_info_panel(self):
+        self.party_label = tk.Label(self.info_panel)
+        self.party_label.configure(text = "Party List:", padx = 50)
+        self.party_label.pack()
+
+        self.party_listbox = tk.Listbox(self.info_panel, font = ("TkDefaultFont", 12, "bold"))
+        self.party_listbox.configure(activestyle = "underline", selectmode = "single", width = 30, justify = "center")
+        
+        for player_character in self.party_list:
+            self.party_listbox.insert(tk.END, player_character)
+
+        self.party_listbox.pack(pady = 10, side = "top")
+        self.party_listbox.bind("<<ListboxSelect>>", self.on_select)
+
+    def get_object_from_string(self, search_term):
+        for player_character in self.party_list:
+            if search_term == str(player_character):
+                return player_character
+                
+    def on_select(self, event):
+        selected_index = self.party_listbox.curselection()
+        if selected_index:
+            selected_item = self.party_listbox.get((selected_index[0]))
+            print(f'You have selected {selected_item}\nHis attributes are {self.get_object_from_string(selected_item).attributes}')
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
