@@ -1,5 +1,6 @@
 from diceroller import roll_dice
 
+
 class Character:
     """
     Represents a character in the fame with a name, size, hitpoints, attributes
@@ -19,10 +20,10 @@ class Character:
         """
         self.name = name
         self.size = 'Medium'
-        self.hitpoints = 1 #This will be modified later
+        self.hitpoints = 1  # This will be modified later
         self.level = 0
         self.sex = ''
-        self.alignment = (0, 0) #Tuple to define where your alignment is.
+        self.alignment = (0, 0)  # Tuple to define where your alignment is.
         self.race = 'None'
         
         self.attributes = {
@@ -101,6 +102,7 @@ class Character:
     def __str__(self):
         return f'{self.name}, the {self.race} {self.class_attributes["character_class"]}'
 
+
 class Human(Character):
     """
     Represents a Human character with racial traits and bonuses.
@@ -112,6 +114,7 @@ class Human(Character):
         self.increment_attribute('Con', 1) #Racial Trait Bonus
         self.race = 'Human'
 
+
 class Elf(Character):
     """
     Represents an Elf character with racial traits and bonuses.
@@ -122,6 +125,7 @@ class Elf(Character):
         self.increment_attribute('Wis', 1) #Racial Trait Bonus
         self.race = 'Elf'
 
+
 class Dwarf(Character):
     """
     Represents a Dwarf character with racial traits and bonuses.
@@ -131,6 +135,7 @@ class Dwarf(Character):
         self.increment_attribute('Con', 1) #Racial Trait Bonus
         self.increment_attribute('Str', 2) #Racial Trait Bonus
         self.race = 'Dwarf'
+
 
 class Halfling(Character):
     """
@@ -143,14 +148,16 @@ class Halfling(Character):
         self.size = 'Small' #Racial Trait Bonus
         self.race = 'Halfling'
 
-class Character_Class:
+
+class CharacterClass:
     def __init__(self, name = 'None'):
         self.name = name
     
     def apply_class_attributes(self, character):
         character.set_all_class_attributes('None', 'None', 'None', 'None', 'None', 'None')
 
-class Cleric(Character_Class):
+
+class Cleric(CharacterClass):
     def __init__(self):
         super().__init__('Cleric')
         self.description = """Cleric: A priestly Champion who wields divine magic in service of a higher power."""
@@ -163,7 +170,8 @@ class Cleric(Character_Class):
                                         ['Wis', 'Cha'], 
                                         'Cleric')
 
-class Fighter(Character_Class):
+
+class Fighter(CharacterClass):
     def __init__(self):
         super().__init__('Fighter')
         self.description = """Fighter: A master of martial combat, skilled with a variet of weapon and armor."""
@@ -176,7 +184,8 @@ class Fighter(Character_Class):
                                         ['Str', 'Con'], 
                                         'Fighter')
 
-class Rogue(Character_Class):
+
+class Rogue(CharacterClass):
     def __init__(self):
         super().__init__('Rogue')
         self.description = """Rogue: A scoundrel who uses stealth and trickery to overcome obstacles and enemies."""
@@ -189,7 +198,8 @@ class Rogue(Character_Class):
                                         ['Dex', 'Int'], 
                                         'Rogue')
 
-class Wizard(Character_Class):
+
+class Wizard(CharacterClass):
     def __init__(self):
         super().__init__('Wizard')
         self.description = """Wizard: A scholarly magic-user capable of manipulating the structures of reality."""
@@ -201,6 +211,7 @@ class Wizard(Character_Class):
                                         'Int', 
                                         ['Int', 'Wis'], 
                                         'Wizard')
+
 
 def create_character(character_name, character_race, character_class):
     match character_race:
@@ -227,13 +238,15 @@ def create_character(character_name, character_race, character_class):
             Wizard().apply_class_attributes(new_player)
         case _:
             print(f'ERR: Class({character_class}) does not exist.')
-            Character_Class().apply_class_attributes(new_player)
+            CharacterClass().apply_class_attributes(new_player)
     return new_player
         
+
 def build_character(character):
-    for atrribute in character.attributes:
-        character.attributes[atrribute] += roll_dice(1, 6)
+    for attribute in character.attributes:
+        character.attributes[attribute] += roll_dice(1, 6)
         
+
 if __name__ == "__main__":
     jimmy = create_character('Jimmy', 'human', 'cleric')
     build_character(jimmy)
